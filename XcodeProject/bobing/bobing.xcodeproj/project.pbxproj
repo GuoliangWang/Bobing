@@ -488,6 +488,7 @@
 				72CAE1FC1CBCF4C4003DB9F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		72CAE1FD1CBCF4C4003DB9F5 /* Build configuration list for PBXNativeTarget "bobingTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +497,7 @@
 				72CAE1FF1CBCF4C4003DB9F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		72CAE2001CBCF4C4003DB9F5 /* Build configuration list for PBXNativeTarget "bobingUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +506,7 @@
 				72CAE2021CBCF4C4003DB9F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
