@@ -11,6 +11,10 @@ import WebKit
 
 class ViewController: UIViewController, WKNavigationDelegate {
 
+    
+    private var webview:WKWebView!
+    private var btn:UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,11 +26,22 @@ class ViewController: UIViewController, WKNavigationDelegate {
         config.allowsAirPlayForMediaPlayback = true
         config.requiresUserActionForMediaPlayback = true
         config.allowsPictureInPictureMediaPlayback = true
-        let webview = WKWebView(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height), configuration: config)
+        webview = WKWebView(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height), configuration: config)
         self.view.addSubview(webview)
+        
+        btn = UIButton(frame: CGRectMake(0, 0, 60, 44));
+        btn.setTitle("返回", forState: UIControlState.Normal)
+        btn.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        btn.hidden = true
+        self.view.addSubview(btn)
+        btn.addTarget(self, action:#selector(ViewController.btnTouchUpInside(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         let webProjectPath = NSBundle.mainBundle().bundlePath + "/WebProject"
-        let storageProjectPath = NSTemporaryDirectory() + "/WebProject"
+        
+        let storageProjectPath =   NSTemporaryDirectory() + "WebProject"
         do {
+            if NSFileManager.defaultManager().fileExistsAtPath(storageProjectPath) {
+               try NSFileManager.defaultManager().removeItemAtPath(storageProjectPath)
+            }
             try NSFileManager.defaultManager().copyItemAtPath(webProjectPath, toPath: storageProjectPath)
         }
         catch {
@@ -39,19 +54,22 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
         webview.navigationDelegate = self
         
-        print("----")
-        print(webProjectURL)
-        print(indexURL)
-        print("auto:" + String(webview.configuration.preferences.javaScriptCanOpenWindowsAutomatically))
-      
-        
+//        print("----")
+//        print(webProjectURL)
+//        print(indexURL)
+//    
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    func btnTouchUpInside(sender: UIButton) {
+        if webview.canGoBack {
+            webview.goBack()
+        }
+    }
 }
 
 private typealias navagationDelegate = ViewController
@@ -121,6 +139,13 @@ extension navagationDelegate {
     @available(iOS 8.0, *)
     internal func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
             print("didFinishNavigation")
+        if webview.canGoBack {
+            btn.hidden = false
+        }
+        else {
+            btn.hidden = true
+        }
+        
     }
     
     /*! @abstract Invoked when an error occurs during a committed main frame
